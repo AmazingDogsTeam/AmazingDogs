@@ -22,7 +22,7 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.jsp">메인</a></li>
-				<li><a href="df.jsp">사료 구매</a></li>
+				<li><a href="df.jsp">사료 구매9</a></li>
 				<li><a href="snack.jsp">간식 구매</a></li>
 				<li><a href="map.jsp">지도</a></li>
 				<li><a href="bbs.jsp">게시판</a></li>
