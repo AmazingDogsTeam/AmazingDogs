@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<footer id='wrap'>
+<link rel="stylesheet" href="css/footer.css">
+<nav id='wrap'>
+<footer>
           <nav>
               <a href='#' target='_blank'>이용약관</a> |
               <a href='#' target='_blank'>오시는 길</a> |
@@ -12,4 +14,6 @@
               <span>JiyunSeojung. All Rights Reserved.</span><br/></br>
           </p>
 </footer>
+</nav>
+
 

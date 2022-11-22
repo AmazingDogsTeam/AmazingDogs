@@ -35,6 +35,9 @@ function fnView() {
 </script>
 </head>
 <body>
+	<header>
+		<%@ include file="header.jsp" %>
+	</header>
 <div align="center">
 	<h2>Delicious Dog Food</h2><br>
 	<table border="1">

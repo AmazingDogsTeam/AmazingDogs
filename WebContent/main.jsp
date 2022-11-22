@@ -16,9 +16,9 @@
 	</style>
 </head>
 <body>
-	<%@ include file="header.jsp" %>
-	
-	<!--  로그인이 된 사람은 로그인정보를 담을 수 있도록 만들어 주겠습니다. -->
+	<header>
+		<%@ include file="header.jsp" %>
+	</header>
 	
 	<!-- 일반적으로 웹사이트를 소개하는 영역이 있는데 부트스랩에서 jumbotron이라고 사용을 합니다. -->
 	<div class="container">
