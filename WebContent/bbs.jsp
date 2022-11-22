@@ -23,6 +23,14 @@
 	<header>
 		<%@ include file="header.jsp" %>
 	</header>
+	<%
+		//1은 기본 페이지를 의미하고 현재 몇번째 페이지인지 알려주기 위함
+		int pageNumber = 1;
+		if (request.getParameter("pageNumber") != null) {
+			// 파라미터는 모두 정수형으로 바꿔주는 pareInt란 함수를 이용해야 합니다.
+			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		}
+	%>
 	<div class="container">
 		<div class="row">
 			<!--  홀수와 짝수로 색상이 변경됨 -->
