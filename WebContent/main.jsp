@@ -25,9 +25,9 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h3>내 아이들에게 좋은것만 선물해주세요 !</h3>
-				<p> 좋은 성분만을 보여드리는 저희 사이트에 들어와주셔서 감사합니다 </p>
+				<p> 좋은 성분의 제품만을 보여드리는 저희 웹페이지에 오신 것을 환영합니다. </p>
 				<!-- 보통 웹페이지에 버튼이 하나씩 있는게 이뻐서 하나 넣어보았습니다. -->
-				<p><a class="btn btn-primary btn-pull" href="#" role="button">좋은 성분 상품 보러가기</a></p>
+				<p><a class="btn btn-primary btn-pull" href="#" role="button">좋은 성분 제품 보러가기</a></p>
 			</div>
 		</div>
 	</div>

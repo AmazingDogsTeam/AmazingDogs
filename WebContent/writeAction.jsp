@@ -48,6 +48,7 @@
 					script.println("history.back()");
 					script.println("</script>");
 				}else{
+					System.out.println("4");
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("location.href='bbs.jsp'");

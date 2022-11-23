@@ -55,7 +55,6 @@ public class BbsDAO {
 	
 	public int write(String bbsTitle, String userID, String bbsContent) {
 		String SQL = "INSERT INTO BBS VALUES(?, ?, ?, ?, ?, ?)";
-		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			//1번은 게시물 번호여야 하니까 getNext()를 사용합니다.

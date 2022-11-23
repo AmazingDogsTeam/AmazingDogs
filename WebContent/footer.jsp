@@ -5,7 +5,7 @@
 <footer>
           <nav>
               <a href='#' target='_blank'>이용약관</a> |
-              <a href='#' target='_blank'>오시는 길</a> |
+              <a href='#' target='_blank'>개인정보처리방침</a> |
               <a href='#' target='_blank'>페이지 소개</a>
           </nav><br>
           <p>
