@@ -86,7 +86,7 @@ public class BbsDAO {
 				
 				while (rs.next()) {
 					Bbs bbs = new Bbs();
-					bbs.setBbsID(rs.getInt(1));
+					bbs.setBbsID(rs.getString(1));
 					bbs.setBbsTitle(rs.getString(2));
 					bbs.setUserID(rs.getString(3));
 					bbs.setBbsDate(rs.getString(4));
@@ -134,7 +134,7 @@ public class BbsDAO {
 				if(rs.next()) {
 					//글에 대한 정보를 담을 객체를 생성하고
 					Bbs bbs = new Bbs();
-					bbs.setBbsID(rs.getInt(1));
+					bbs.setBbsID(rs.getString(1));
 					bbs.setBbsTitle(rs.getString(2));
 					bbs.setUserID(rs.getString(3));
 					bbs.setBbsDate(rs.getString(4));

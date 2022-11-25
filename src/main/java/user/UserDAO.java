@@ -1,39 +1,24 @@
 package user;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserDAO {
 	//Connection 데이터 베이스 접근하게 해주는 하나의 객체
-		private Connection conn;
-		private PreparedStatement pstmt;
-		//하나의 정보를 담을 수 있는 하나의 객체
-		private ResultSet rs;
-		
-		//ctrl +shift + o 를 눌러 외부 라이브러리를 넣어줍니다
-		
-		//생성자를 만들어줍니다.
-		public UserDAO() { //실제로 mysql에 접속할 수 있도록 도와줌
-		try { 
-		String dbURL = "jdbc:mysql://localhost:3306/bbs?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf-8";
-		String dbID  = "root"; 
-		String dbPassword = "1234"; 
-		 //driver는 mysql에 접속할 수 있도록 도와주는 하나의 라이브러리 매개체
-		Class.forName("com.mysql.cj.jdbc.Driver"); 
-		conn=DriverManager.getConnection(dbURL, dbID, dbPassword);
-		}catch(Exception e) {
-			e.printStackTrace(); //오류가 무엇인지 출력
-		}
-	}
+		private Connection conn = null;
+		private PreparedStatement pstmt = null;
+		private ResultSet rs = null;
+		private final String USER_INSERT = "INSERT INTO USER VALUES(?, ?, ?, ?, ?)";
+		private final String USER_SELECT = "SELECT userPassword FROM USER WHERE userID= ?";
+
 	
 	//실제로 로그인을 시도하는 함수
 		public int login(String userID, String userPassword) { // 아이디와 비밀번호를 받아옴
-			//실제로 db에 입력할 sql문
-			String SQL = "SELECT userPassword FROM USER WHERE userID= ?";
 			try {
-				pstmt = conn.prepareStatement(SQL);
+				conn = JdbcUtil.getConnection();
+				pstmt = conn.prepareStatement(USER_SELECT);
 				pstmt.setString(1,  userID);
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
@@ -50,19 +35,21 @@ public class UserDAO {
 			return -2; // 데이터베이스 오류를 의미합니다.
 		}
 		// 회원가입 기능 구현
-		public int join(User user) {
-			String SQL = "INSERT INTO USER VALUES(?, ?, ?, ?, ?)";
+		public void insertMember(User mem) throws SQLException {
 			try {
-				pstmt = conn.prepareStatement(SQL);
-				pstmt.setString(1, user.getUserID());
-				pstmt.setString(2, user.getUserPassword());
-				pstmt.setString(3, user.getUserName());
-				pstmt.setString(4, user.getUserGender());
-				pstmt.setString(5, user.getUserEmail());
-				return pstmt.executeUpdate();
+				conn = JdbcUtil.getConnection();
+				pstmt = conn.prepareStatement(USER_INSERT);
+				pstmt.setString(1, mem.getUserID());
+				pstmt.setString(2, mem.getUserPassword());
+				pstmt.setString(3, mem.getUserName());
+				pstmt.setString(4, mem.getUserGender());
+				pstmt.setString(5, mem.getUserEmail());
+				pstmt.executeUpdate();
 			}catch(Exception e) {
-				e.printStackTrace();
+				
+			}finally {
+				JdbcUtil.close(pstmt, conn);
 			}
-			return -1; //데이터베이스 오류
+			//return -1; //데이터베이스 오류
 		}
 	}
