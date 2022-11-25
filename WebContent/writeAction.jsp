@@ -6,7 +6,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="bbs" class="bbs.Bbs" scope="page" />
+<jsp:useBean id="bbs" class="bbs.BbsDTO" scope="page" />
 <jsp:setProperty name="bbs" property="bbsTitle" />
 <jsp:setProperty name="bbs" property="bbsContent" />
 

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="bbs.BbsDAO"%>
-<%@ page import="bbs.Bbs"%>
+<%@ page import="bbs.BbsDTO"%>
 <%@ page import="java.util.ArrayList"%>
 
 <!DOCTYPE html>
@@ -24,12 +24,14 @@
 		<%@ include file="header.jsp" %>
 	</header>
 	<%
-		//1은 기본 페이지를 의미하고 현재 몇번째 페이지인지 알려주기 위함
-		int pageNumber = 1;
-		if (request.getParameter("pageNumber") != null) {
-			// 파라미터는 모두 정수형으로 바꿔주는 pareInt란 함수를 이용해야 합니다.
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
+	p
+
+			//1은 기본 페이지를 의미하고 현재 몇번째 페이지인지 알려주기 위함
+			int pageNumber = 1;
+			if (request.getParameter("pageNumber") != null) {
+		// 파라미터는 모두 정수형으로 바꿔주는 pareInt란 함수를 이용해야 합니다.
+		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			}
 	%>
 	<div class="container">
 		<div class="row">
@@ -54,9 +56,11 @@
 					
 					</tr>
 					<%
-						BbsDAO bbsDAO = new BbsDAO();
-						ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
-						for (int i = 0; i < list.size(); i++) {
+					p
+
+									BbsDAO bbsDAO = new BbsDAO();
+									ArrayList<BbsDTO> list = bbsDAO.getList(pageNumber);
+									for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>
 						<td><%=list.get(i).getBbsID() %></td>

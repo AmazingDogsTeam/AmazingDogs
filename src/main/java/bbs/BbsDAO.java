@@ -71,11 +71,11 @@ public class BbsDAO {
 		return -1; //데이터 베이스 오류
 	}
 	// 글 목록창 불러오는 함수
-		public ArrayList<Bbs> getList(int pageNumber) {
+		public ArrayList<BbsDTO> getList(int pageNumber) {
 			// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
 			String SQL = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 			// Bbs클래스에서 나오는 인스턴스를 보관하는 리스트를 하나 만듭니다.
-			ArrayList<Bbs> list = new ArrayList<Bbs>();
+			ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
 			
 			
 			try {
@@ -85,8 +85,8 @@ public class BbsDAO {
 				rs = pstmt.executeQuery();
 				
 				while (rs.next()) {
-					Bbs bbs = new Bbs();
-					bbs.setBbsID(rs.getString(1));
+					BbsDTO bbs = new BbsDTO();
+					bbs.setBbsID(rs.getInt(1));
 					bbs.setBbsTitle(rs.getString(2));
 					bbs.setUserID(rs.getString(3));
 					bbs.setBbsDate(rs.getString(4));
@@ -106,7 +106,7 @@ public class BbsDAO {
 			// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
 					String SQL = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 					// Bbs클래스에서 나오는 인스턴스를 보관하는 리스트를 하나 만듭니다.
-					ArrayList<Bbs> list = new ArrayList<Bbs>();
+					ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
 					try {
 						PreparedStatement pstmt = conn.prepareStatement(SQL);
 						// 글 출력 개수
@@ -124,7 +124,7 @@ public class BbsDAO {
 					return false;
 		}
 		//글 내용을 불러오는 함수
-		public Bbs getBbs(int bbsID) {
+		public BbsDTO getBbs(int bbsID) {
 			//특정 게시글 번호에 모든 정보를 가져오는 쿼리문입니다.
 			String SQL = "SELECT * FROM BBS WHERE bbsID =?";
 			try {
@@ -133,8 +133,8 @@ public class BbsDAO {
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
 					//글에 대한 정보를 담을 객체를 생성하고
-					Bbs bbs = new Bbs();
-					bbs.setBbsID(rs.getString(1));
+					BbsDTO bbs = new BbsDTO();
+					bbs.setBbsID(rs.getInt(1));
 					bbs.setBbsTitle(rs.getString(2));
 					bbs.setUserID(rs.getString(3));
 					bbs.setBbsDate(rs.getString(4));
