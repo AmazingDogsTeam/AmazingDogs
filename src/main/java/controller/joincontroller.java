@@ -23,7 +23,7 @@ public class joincontroller extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WebContent/join.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("join.jsp");
 		rd.forward(request, response);
 	}
 
@@ -51,7 +51,7 @@ public class joincontroller extends HttpServlet {
 			response.sendRedirect("join.jsp");
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 		
 

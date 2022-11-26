@@ -16,7 +16,6 @@
 		<%@ include file="header.jsp" %>
 	</header>
 <%
-p
 	
 		int bbsID = 0;
 		if (request.getParameter("bbsID") != null) {

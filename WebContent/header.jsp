@@ -21,7 +21,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="main.jsp">메인</a></li>
+				<li><a href="index.jsp">메인</a></li>
 				<li><a href="df.jsp">사료 구매</a></li>
 				<li><a href="snack.jsp">간식 구매</a></li>
 				<li><a href="map.jsp">지도</a></li>
@@ -33,8 +33,8 @@
 				if (userID == null) {
 			%>
 			<ul class="nav navbar-nav navbar-right">
-						<li><a href="login.jsp">로그인</a></li>
-						<li><a href="join.jsp">회원가입</a></li>
+						<li><a href="login.do">로그인</a></li>
+						<li><a href="join.do">회원가입</a></li>
 					</ul>
 		
 			<%

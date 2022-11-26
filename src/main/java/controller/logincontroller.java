@@ -1,11 +1,17 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import user.UserDAO;
+import user.UserDTO;
 
 @WebServlet("/login.do")
 public class logincontroller extends HttpServlet {
@@ -19,12 +25,31 @@ public class logincontroller extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+		rd.forward(request, response);
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		
+
+		UserDTO uDto = new UserDTO();
+		uDto.setUserID(id);
+		uDto.setUserPassword(pw);
+		
+		UserDAO uDao = new UserDAO();
+		try {
+			uDao.insertMember(uDto);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.sendRedirect("login.jsp");
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
