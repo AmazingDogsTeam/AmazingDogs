@@ -1,7 +1,6 @@
 package bbs;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,6 +13,14 @@ public class BbsDAO {
 	private PreparedStatement pstmt;
 	private final String BBS_SELECT ="SELECT bbsID FROM BBS ORDER BY bbsID DESC";
 	private final String BBS_INSERT = "INSERT INTO BBS VALUES(?, ?, ?, ?, ?, ?)";
+	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
+	private final String ARRAY_SELECT = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
+	private final String NEXTPAGE_SELECT = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+	//특정 게시글 번호에 모든 정보를 가져오는 쿼리문입니다.
+	private final String ALL_SELECT = "SELECT * FROM BBS WHERE bbsID =?";
+	private final String BBS_UPDATE = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
+	private final String BBS_AVAILABLE = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
 	
 	public String getDate() {
 		try {
@@ -32,6 +39,7 @@ public class BbsDAO {
 	
 	public int getNext() {
 		try {
+			conn = JdbcUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(BBS_SELECT);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -46,6 +54,7 @@ public class BbsDAO {
 	
 	public int write(String bbsTitle, String userID, String bbsContent) {
 		try {
+			conn = JdbcUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(BBS_INSERT);
 			//1번은 게시물 번호여야 하니까 getNext()를 사용합니다.
 			pstmt.setInt(1, getNext());
@@ -62,14 +71,13 @@ public class BbsDAO {
 	}
 	// 글 목록창 불러오는 함수
 		public ArrayList<BbsDTO> getList(int pageNumber) {
-			// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
-			String SQL = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 			// Bbs클래스에서 나오는 인스턴스를 보관하는 리스트를 하나 만듭니다.
 			ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
 			
 			
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				conn = JdbcUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(ARRAY_SELECT);
 				// 글 출력 개수
 				pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
 				rs = pstmt.executeQuery();
@@ -93,12 +101,11 @@ public class BbsDAO {
 		}
 		//10개 밖에 없다면 다음 페이지가 없다는걸 알려주는 거에요. 페이지 처리를 위해서 존재하는 함수에요
 		public boolean nextPage(int pageNumber) {
-			// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
-					String SQL = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 					// Bbs클래스에서 나오는 인스턴스를 보관하는 리스트를 하나 만듭니다.
 					ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
 					try {
-						PreparedStatement pstmt = conn.prepareStatement(SQL);
+						conn = JdbcUtil.getConnection();
+						PreparedStatement pstmt = conn.prepareStatement(NEXTPAGE_SELECT);
 						// 글 출력 개수
 						pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
 						rs = pstmt.executeQuery();
@@ -115,10 +122,9 @@ public class BbsDAO {
 		}
 		//글 내용을 불러오는 함수
 		public BbsDTO getBbs(int bbsID) {
-			//특정 게시글 번호에 모든 정보를 가져오는 쿼리문입니다.
-			String SQL = "SELECT * FROM BBS WHERE bbsID =?";
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				conn = JdbcUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(ALL_SELECT);
 				pstmt.setInt(1,  bbsID);
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
@@ -141,9 +147,9 @@ public class BbsDAO {
 		}
 		//글 수정 하는 함수
 		public int update(int bbsID, String bbsTitle, String bbsContent) {
-			String SQL = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				conn = JdbcUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(BBS_UPDATE);
 				pstmt.setString(1, bbsTitle);
 				pstmt.setString(2, bbsContent);
 				pstmt.setInt(3, bbsID);
@@ -157,9 +163,9 @@ public class BbsDAO {
 		
 		//bbsAvailable 을 0으로 바꿈으로 화면에 표시되지 않게 함
 		public int delete(int bbsID) {
-			String SQL = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
 			try {
-				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				conn = JdbcUtil.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(BBS_AVAILABLE);
 				pstmt.setInt(1, bbsID);
 				return pstmt.executeUpdate(); 
 				
