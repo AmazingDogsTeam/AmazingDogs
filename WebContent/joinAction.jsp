@@ -1,3 +1,4 @@
+<%@page import="org.apache.catalina.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="user.UserDAO"%>
@@ -42,7 +43,7 @@
 		} else {
 			UserDAO userDAO = new UserDAO();
 			//login.jsp에서 id와 password를 받아옵니다.
-			int result = userDAO.join(user);
+			int result = userDAO.insertMember(user);
 			if (result == -1) {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");

@@ -24,8 +24,6 @@
 		<%@ include file="header.jsp" %>
 	</header>
 	<%
-	p
-
 			//1은 기본 페이지를 의미하고 현재 몇번째 페이지인지 알려주기 위함
 			int pageNumber = 1;
 			if (request.getParameter("pageNumber") != null) {

@@ -35,7 +35,7 @@ public class UserDAO {
 			return -2; // 데이터베이스 오류를 의미합니다.
 		}
 		// 회원가입 기능 구현
-		public void insertMember(UserDTO mem) throws SQLException {
+		public int insertMember(UserDTO mem) throws SQLException {
 			try {
 				conn = JdbcUtil.getConnection();
 				pstmt = conn.prepareStatement(USER_INSERT);
@@ -45,11 +45,12 @@ public class UserDAO {
 				pstmt.setString(4, mem.getUserGender());
 				pstmt.setString(5, mem.getUserEmail());
 				pstmt.executeUpdate();
+
+				return 1;
 			}catch(Exception e) {
-				
+				return -2;
 			}finally {
 				JdbcUtil.close(pstmt, conn);
 			}
-			//return -1; //데이터베이스 오류
 		}
 	}
