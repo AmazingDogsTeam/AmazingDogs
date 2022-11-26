@@ -54,11 +54,10 @@
 					
 					</tr>
 					<%
-					p
 
-									BbsDAO bbsDAO = new BbsDAO();
-									ArrayList<BbsDTO> list = bbsDAO.getList(pageNumber);
-									for (int i = 0; i < list.size(); i++) {
+						BbsDAO bbsDAO = new BbsDAO();
+						ArrayList<BbsDTO> list = bbsDAO.getList(pageNumber);
+						for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>
 						<td><%=list.get(i).getBbsID() %></td>
