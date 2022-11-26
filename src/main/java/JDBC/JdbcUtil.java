@@ -1,4 +1,4 @@
-package user;
+package JDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ public class JdbcUtil {
 	final static String DBPASS = "1234"; 
 	final static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	
-	static Connection getConnection() {
+	public static Connection getConnection() {
 		try {
 			Class.forName(JDBC_DRIVER);
 			return DriverManager.getConnection(JDBC_URL,DBUSER,DBPASS);

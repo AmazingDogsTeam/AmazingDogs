@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import JDBC.JdbcUtil;
+
 public class UserDAO {
 	//Connection 데이터 베이스 접근하게 해주는 하나의 객체
 		private Connection conn = null;

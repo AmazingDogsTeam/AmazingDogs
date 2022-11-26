@@ -6,28 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import JDBC.JdbcUtil;
+
 public class BbsDAO {
 	private Connection conn;
 	private ResultSet rs;
 	private PreparedStatement pstmt;
+	private final String BBS_SELECT ="SELECT bbsID FROM BBS ORDER BY bbsID DESC";
+	private final String BBS_INSERT = "INSERT INTO BBS VALUES(?, ?, ?, ?, ?, ?)";
 	
-	public BbsDAO() {
-		try { 
-			String dbURL = "jdbc:mysql://localhost:3306/bbs?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=utf-8";
-			String dbID  = "root"; 
-			String dbPassword = "1234"; 
-			 //driver는 mysql에 접속할 수 있도록 도와주는 하나의 라이브러리 매개체
-			Class.forName("com.mysql.cj.jdbc.Driver"); 
-			conn=DriverManager.getConnection(dbURL, dbID, dbPassword);
-			}catch(Exception e) {
-				e.printStackTrace(); //오류가 무엇인지 출력
-			}
-	}
 	public String getDate() {
-		String SQL = "SELECT NOW()";
 		try {
-			pstmt = conn.prepareStatement(SQL);
-			rs= pstmt.executeQuery();
+			conn = JdbcUtil.getConnection();
+			pstmt = conn.prepareStatement(BBS_SELECT);
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getString(1);
 			}
@@ -39,9 +31,8 @@ public class BbsDAO {
 	}
 	
 	public int getNext() {
-		String SQL = "SELECT bbsID FROM BBS ORDER BY bbsID DESC";
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(BBS_SELECT);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt(1)+1;
@@ -54,9 +45,8 @@ public class BbsDAO {
 	}
 	
 	public int write(String bbsTitle, String userID, String bbsContent) {
-		String SQL = "INSERT INTO BBS VALUES(?, ?, ?, ?, ?, ?)";
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(BBS_INSERT);
 			//1번은 게시물 번호여야 하니까 getNext()를 사용합니다.
 			pstmt.setInt(1, getNext());
 			pstmt.setString(2, bbsTitle);
