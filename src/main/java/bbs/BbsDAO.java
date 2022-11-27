@@ -12,7 +12,7 @@ public class BbsDAO {
 	private ResultSet rs;
 	private PreparedStatement pstmt;
 	private final String BBS_SELECT ="SELECT bbsID FROM BBS ORDER BY bbsID DESC";
-	private final String BBS_INSERT = "INSERT INTO BBS VALUES(?, ?, ?, ?, ?, ?)";
+	private final String BBS_INSERT = "INSERT INTO BBS VALUES(getNext(), ?, ?, getDate(), ?, ?)";
 	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
 	private final String ARRAY_SELECT = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
@@ -57,12 +57,10 @@ public class BbsDAO {
 			conn = JdbcUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(BBS_INSERT);
 			//1번은 게시물 번호여야 하니까 getNext()를 사용합니다.
-			pstmt.setInt(1, getNext());
-			pstmt.setString(2, bbsTitle);
-			pstmt.setString(3, userID);
-			pstmt.setString(4, getDate());
-			pstmt.setString(5, bbsContent);
-			pstmt.setInt(6, 1); //available 삭제됬는지 아닌지 확인
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, userID);
+			pstmt.setString(3, bbsContent);
+			pstmt.setInt(4, getNext()); //available 삭제됬는지 아닌지 확인
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -174,6 +172,8 @@ public class BbsDAO {
 			}
 			return -1; // DB ERROR
 		}
+
+
 
 	}
 	

@@ -4,6 +4,7 @@
 <%@ page import="bbs.BbsDAO"%>
 <%@ page import="bbs.BbsDTO"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -44,6 +45,16 @@
 						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
 					</tr>
+					<c:forEach var="posting" items="${list}">
+						<tr>
+							<td>${posting.BbsID}</td>
+							<td>${posting.BbsTitle}</td>
+							<td>${posting.UserID}</td>
+							<td>${posting.BbsDate}</td>
+							<td>${posting.BbsContent}</td>
+							<td>${posting.BbsAvailable}</td>
+						</tr>
+					</c:forEach>
 				</thead>
 				<tbody>
 					<tr>
