@@ -80,6 +80,29 @@
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 			crossorigin="anonymous"></script>
+
+<%
+	String loginYn = null;
+	String logout = null;
+	loginYn = (String) session.getAttribute("loginYn");
+	logout = (String) session.getAttribute("logout");
+%>
+<%--JSP의 경우 자바코드(스크립틀릿)를 우선 수행한 후 HTML문법을 수행(자바스크립트 포함) --%>
+<script>
+// 화면이 전부 로딩된 후 마지막에 수행
+window.onload = function() {
+	  if( '<%=loginYn%>' == 'Y'){
+		  alert('<%=userID%>님 환영합니다.');
+	  }else if( '<%=loginYn%>' == 'N'){
+		  alert('로그인 실패');
+	  }
+	  
+	  
+	  if( '<%=logout%>' == 'Y'){
+		  alert('로그아웃 되었습니다.');
+	  }
+}
+</script>
 		
 </body>
 </html>

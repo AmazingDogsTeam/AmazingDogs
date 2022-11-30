@@ -11,22 +11,21 @@ public class BbsDAO {
 	private Connection conn;
 	private ResultSet rs;
 	private PreparedStatement pstmt;
-	private final String BBS_SELECT ="SELECT bbsID FROM bbs ORDER BY bbsID DESC";
-	private final String BBS_INSERT = "INSERT INTO bbs VALUES(?,?,?,?,?,?)";
+	private final String BBS_SELECT ="SELECT bbsID FROM BBS ORDER BY bbsID DESC";
+	private final String BBS_INSERT = "INSERT INTO BBS VALUES(getNext(), ?, ?, getDate(), ?, ?)";
 	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
-	private final String ARRAY_SELECT = "SELECT * FROM bbs WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+	private final String ARRAY_SELECT = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 	// 특정한 숫자보다 작고 삭제가 되지 않아서 AVAILABLE이 1인 글만 가져오고 위에서 10개의 글까지만 가져오고 글 번호를 내림차순 하는 쿼리문입니다.
-	private final String NEXTPAGE_SELECT = "SELECT * FROM bbs WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
+	private final String NEXTPAGE_SELECT = "SELECT * FROM BBS WHERE bbsID < ? and bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 	//특정 게시글 번호에 모든 정보를 가져오는 쿼리문입니다.
-	private final String ALL_SELECT = "SELECT * FROM bbs WHERE bbsID =?";
-	private final String BBS_UPDATE = "UPDATE bbs SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
-	private final String BBS_AVAILABLE = "UPDATE bbs SET bbsAvailable = 0 WHERE bbsID = ?";
-	private final String BBS_NOW = "SELECT NOW()";
+	private final String ALL_SELECT = "SELECT * FROM BBS WHERE bbsID =?";
+	private final String BBS_UPDATE = "UPDATE BBS SET bbsTitle = ?, bbsContent = ? WHERE bbsID = ?";
+	private final String BBS_AVAILABLE = "UPDATE BBS SET bbsAvailable = 0 WHERE bbsID = ?";
 	
 	public String getDate() {
 		try {
 			conn = JdbcUtil.getConnection();
-			pstmt = conn.prepareStatement(BBS_NOW);
+			pstmt = conn.prepareStatement(BBS_SELECT);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getString(1);
@@ -58,12 +57,10 @@ public class BbsDAO {
 			conn = JdbcUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(BBS_INSERT);
 			//1번은 게시물 번호여야 하니까 getNext()를 사용합니다.
-			pstmt.setInt(1, getNext());
-			pstmt.setString(2, bbsTitle);
-			pstmt.setString(3, userID);
-			pstmt.setString(4, getDate());
-			pstmt.setString(5, bbsContent);
-			pstmt.setInt(6, 1); //글의 유효번호
+			pstmt.setString(1, bbsTitle);
+			pstmt.setString(2, userID);
+			pstmt.setString(3, bbsContent);
+			pstmt.setInt(4, getNext()); //available 삭제됬는지 아닌지 확인
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -74,6 +71,8 @@ public class BbsDAO {
 		public ArrayList<BbsDTO> getList(int pageNumber) {
 			// Bbs클래스에서 나오는 인스턴스를 보관하는 리스트를 하나 만듭니다.
 			ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
+			
+			
 			try {
 				conn = JdbcUtil.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(ARRAY_SELECT);
@@ -112,6 +111,7 @@ public class BbsDAO {
 						if (rs.next()) {
 							return true;						
 						}
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

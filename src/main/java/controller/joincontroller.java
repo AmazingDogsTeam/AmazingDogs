@@ -14,10 +14,10 @@ import user.UserDTO;
 
 
 @WebServlet("/join.do")
-public class joincontroller extends HttpServlet {
+public class joinController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public joincontroller() {
+    public joinController() {
         super();
     }
 
@@ -29,12 +29,16 @@ public class joincontroller extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("join.do doPost 진입");
 		request.setCharacterEncoding("UTF-8");
-		String id = request.getParameter("id");
-		String pw = request.getParameter("pw");
-		String name = request.getParameter("name");
-		String gender = request.getParameter("gender");
-		String email = request.getParameter("email");
+		
+		RequestDispatcher dispatcher = null;
+		
+		String id = request.getParameter("userID");
+		String pw = request.getParameter("userPassword");
+		String name = request.getParameter("userName");
+		String gender = request.getParameter("userGender");
+		String email = request.getParameter("userEmail");
 
 		UserDTO uDto = new UserDTO();
 		uDto.setUserID(id);
@@ -44,14 +48,16 @@ public class joincontroller extends HttpServlet {
 		uDto.setUserEmail(email);
 
 		UserDAO uDao = new UserDAO();
+		
 		try {
 			uDao.insertMember(uDto);
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
-			response.sendRedirect("join.jsp");
+			dispatcher = request.getRequestDispatcher("join.jsp");
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+		dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 		
 

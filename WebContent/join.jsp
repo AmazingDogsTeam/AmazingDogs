@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+\<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,6 +6,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
+
+<!-- 회원가입 관련 스크립트 -->
+<script src="js/join.js"></script>
+
 <title>Rodin login</title>
 </head>
 <body>
@@ -17,7 +21,8 @@
 		
 		<div class="col-lg-4">
 			<div class="jumbotron" style="padding-top: 20px;">
-				<form method="post" action="joinAction.jsp">
+				<!-- <form method="post" action="joinAction.jsp"> -->
+				<form id="joinForm" method="post" action="join.do">
 					<h3 style="text-align: center;">회원가입 화면</h3>
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
@@ -35,14 +40,15 @@
 					<div class="form-group" style="text-align: center;">
 						<div class="btn-group" data-toggle="buttons">
 							<label class="btn btn-primary activate">
-								<input type="radio" name="userGender" autocomplete="off" value="남자" checked>남자
+								<input type="radio" name="userGender" autocomplete="off" value="남자">남자
 							</label>
 							<label class="btn btn-primary activate">
-								<input type="radio" name="userGender" autocomplete="off" value="여자" checked>여자
+								<input type="radio" name="userGender" autocomplete="off" value="여자">여자
 							</label>
 						</div>
 					</div>
-					<input type="submit" class="btn btn-primary form-control" value="회원가입">
+					<!-- <input type="submit" class="btn btn-primary form-control" value="회원가입"> -->
+					<input type="button" class="btn btn-primary form-control" value="회원가입" onclick="javascript:registValidate();">
 				</form>
 		</div>
 	</div>
@@ -55,5 +61,41 @@
   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<script type="text/javascript">
+
+// 회원가입 입력항목 검증
+function registValidate(){
+	var f = document.getElementById('joinForm');
+	
+    if ( f.userID.value == null || f.userID.value == '' ) {
+    	alert('ID를 입력해주세요');
+    	return;
+    }
+	
+    if ( f.userPassword.value == null || f.userPassword.value == '' ) {
+    	alert('비밀번호를 입력해주세요');
+    	return;
+    }
+    
+    if ( f.userName.value == null || f.userName.value == '' ) {
+    	alert('이름을 입력해주세요');
+    	return;
+    }
+    
+    if ( f.userEmail.value == null || f.userEmail.value == '' ) {
+    	alert('이메일을 입력해주세요');
+    	return;
+    }
+    
+    if( document.querySelector('input[type=radio][name=userGender]:checked') == null ){
+    	alert('성별을 선택해주세요.');
+    	return;
+    }
+    
+    f.submit();
+}
+
+
+</script>
 </body>
 </html>

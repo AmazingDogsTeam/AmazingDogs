@@ -17,7 +17,7 @@
 		
 		<div class="col-lg-4">
 			<div class="jumbotron" style="padding-top: 20px;">
-				<form method="post" action="loginAction.jsp">
+				<form id="loginForm" method="post" action="login.do">
 					<h3 style="text-align: center;">로그인 화면</h3>
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
@@ -25,7 +25,7 @@
 					<div class="form-group">
 						<input type="password" class="form-control" placeholder="비밀번호" name="userPassword" maxlength="20">
 					</div>
-					<input type="submit" class="btn btn-primary form-control" value="로그인">
+					<input type="button" class="btn btn-primary form-control" value="로그인" onclick="javascript:loginValidate();">
 				</form>
 		</div>
 	</div>
@@ -37,5 +37,37 @@
   integrity="sha256-IGWuzKD7mwVnNY01LtXxq3L84Tm/RJtNCYBfXZw3Je0="
   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<%
+	String loginYn = null;
+	loginYn = (String) session.getAttribute("loginYn");	
+%>
+
+<script>
+window.onload = function() {
+	  if( '<%=loginYn%>' == 'N'){
+		  alert('로그인 실패');
+	  }
+}
+
+function loginValidate() {
+    
+	var f = document.getElementById('loginForm');
+	
+    if ( f.userID.value == null || f.userID.value == '' ) {
+    	alert('ID를 입력해주세요');
+    	return;
+    }
+	
+    if ( f.userPassword.value == null || f.userPassword.value == '' ) {
+    	alert('비밀번호를 입력해주세요');
+    	return;
+    }
+    
+    f.submit();
+}
+
+</script>
+
 </body>
 </html>

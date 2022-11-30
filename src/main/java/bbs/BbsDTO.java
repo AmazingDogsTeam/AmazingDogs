@@ -42,7 +42,6 @@ public class BbsDTO {
 	public void setBbsAvailable(int bbsAvailable) {
 		this.bbsAvailable = bbsAvailable;
 	}
-
 	private int bbsID;
 	private String bbsTitle;
 	private String userID;

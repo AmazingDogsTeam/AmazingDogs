@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.*"%>
+    pageEncoding="UTF-8" import="user.*"%>
 <%@ page import="bbs.*" %>
 <%@ page import="org.json.simple.*" %>
 <%@ page import="java.util.*" %>
@@ -146,10 +146,10 @@
 <body>
 	<%
 		// 메인 페이지로 이동했을 때 세션에 값이 담겨있는지 체크
-		String userID = null;
+		String userID2  = null;
 		MemberVO user=(MemberVO)session.getAttribute("user");
 		if(user != null) {
-			userID = user.getId();
+			userID2 = user.getId();
 		}
 		pageContext.setAttribute("user",user);
 	%>

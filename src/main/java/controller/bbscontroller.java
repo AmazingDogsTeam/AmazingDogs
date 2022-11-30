@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @WebServlet("/bbs.do")
-public class bbscontroller extends HttpServlet {
+public class bbsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
-    public bbscontroller() {
+    public bbsController() {
         super();
     }
 

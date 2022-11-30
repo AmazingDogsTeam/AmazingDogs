@@ -4,8 +4,10 @@
 	<!--  로그인이 된 사람은 로그인정보를 담을 수 있도록 만들어 주겠습니다. -->
 	<%
 		String userID = null;
+		String adminYn = null;
 		if (session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
+			adminYn = (String) session.getAttribute("adminYn");
 		}
 	%>
 	<nav class="navbar navbar-default">
@@ -41,8 +43,15 @@
 				} else {
 			%>
 			<ul class="nav navbar-nav navbar-right">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
+						<li><a href="logout.do">로그아웃</a></li>
 						<li><a href="CartView.jsp">장바구니</a></li>
+						<%
+							if( adminYn == "Y"){
+						%>
+							<li><a href="adminPage.jsp">회원관리</a></li>
+						<%
+							}
+						%>		
 						<li><a hrtf="myPage.jsp">마이페이지</a></li>
 					</ul>
 			<%
